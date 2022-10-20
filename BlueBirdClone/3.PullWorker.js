@@ -16,22 +16,18 @@ class PullWorker extends Worker{
     }
 
     async work() {
-        const workerReference = this;
         const currentTaskIndex = this.getCurrentTaskIndex();
         const currentTaskId = this.taskIdList[currentTaskIndex];
-        if ( !currentTaskId ) return;
-        await new Promise( async (resolve) => {
-            console.log(`${getTime()} worker ${this.id}: starting ${currentTaskId}`);
-            const currentData = await db.getData(
-                currentTaskId,
-                // makes even tasks duration 1 sec and odd tasks 2 sec
-                currentTaskId%2 === 0 ? 1000 : 2000,
-            );
-            console.log(`${getTime()} worker ${this.id}: finished ${currentTaskId}`);
-            this.data[currentTaskIndex] = currentData;
-            resolve(workerReference.work());
-        })
-        return this.data;
+        if ( !currentTaskId ) return this.data;
+        console.log(`${getTime()} worker ${this.id}: starting ${currentTaskId}`);
+        const currentData = await db.getData(
+            currentTaskId,
+            // makes even tasks duration 1 sec and odd tasks 2 sec
+            currentTaskId%2 === 0 ? 1000 : 2000,
+        );
+        console.log(`${getTime()} worker ${this.id}: finished ${currentTaskId}`);
+        this.data[currentTaskIndex] = currentData;
+        return this.work();
     }
 }
 
