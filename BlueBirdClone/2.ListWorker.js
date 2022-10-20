@@ -13,23 +13,18 @@ class ListWorker extends Worker{
     }
 
     async work() {
-        const workerReference = this;
         const currentTaskId = this.taskIdList.shift();
-        if ( !currentTaskId ) return;
-        await new Promise( async (resolve) => {
-            console.log(`${getTime()}s worker ${this.id}: starting ${currentTaskId}`);
-            const currentData = await db.getData(
-                currentTaskId,
-                // makes even tasks duration 1 sec and odd tasks 2 sec
-                currentTaskId%2 === 0 ? 1000 : 2000,
-            );
-            console.log(`${getTime()}s worker ${this.id}: finished ${currentTaskId}`);
-            this.data.push(currentData);
-            resolve(workerReference.work());
-        })
-        return this.data;
+        if ( !currentTaskId ) return this.data;
+        console.log(`${getTime()}s worker ${this.id}: starting ${currentTaskId}`);
+        const currentData = await db.getData(
+            currentTaskId,
+            // makes even tasks duration 1 sec and odd tasks 2 sec
+            currentTaskId%2 === 0 ? 1000 : 2000,
+        );
+        console.log(`${getTime()}s worker ${this.id}: finished ${currentTaskId}`);
+        this.data.push(currentData);
+        return this.work();
     }
-
 }
 
 const MAX_OPEN_CONNECTIONS = 2;
