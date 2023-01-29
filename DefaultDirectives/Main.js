@@ -1,17 +1,17 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { defaultDirectiveExample } = require("./DefaultDirectiveExample");
+const { defaultDirectiveExample } = require("./DefaultDirectiveExample.js");
 
 const typeDefs = gql`
 
     type Query {
-        trainers(ids: [String]): String
+        status(ids: [String]): String
     }
 `;
 
 
 const resolvers = {
     Query: {
-        trainers: async (_, { ids }) => {
+        status: async (_, { ids }) => {
             console.log("Hi!");
             return "OK";
         },
