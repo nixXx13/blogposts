@@ -36,10 +36,6 @@ function restrictedDirectiveTransformer(schema, directiveName) {
                 return null;
             }
             const result = await resolve(source, args, context, info);
-            // if (!isUserAdmin) {
-            //     console.log(`${info?.parentType?.name}: ${info?.fieldName} - blocked! user lacks proper privileges.`)
-            //     return null;
-            // }
             return result;
         }
         return fieldConfig;

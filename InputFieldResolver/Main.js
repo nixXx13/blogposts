@@ -15,7 +15,7 @@ const typeDefs = gql`
         id: String
         name: String 
         address: String
-        role: UserRole #@restricted
+        role: UserRole @restricted
     }
     input UserInput {
         name: String
@@ -100,6 +100,3 @@ server.listen({port: 4001}).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
 });
 
-// links
-// https://github.com/ardatan/graphql-tools/issues/652
-// https://github.com/ardatan/graphql-tools/blob/master/packages/utils/src/mapSchema.ts 
