@@ -1,8 +1,7 @@
 const { observer } = require('./MobxClone');
 
 const TimerView = observer(({ timer, title }) => (
-    // console.log( `Title: ${title.text} | secondsPassed: ${timer.secondsPassed}` )
-    console.log( `Title: ${title.text} | secondsPassed: ${timer.secondsPassed} | format: ${timer.format}` )
+    console.log(`Title: ${title.text} | secondsPassed: ${timer.secondsPassed} | format: ${timer.format}`)
 ))
 
 module.exports = { 
